@@ -1,4 +1,3 @@
-
 import com.github.javafaker.Faker;
 
 public class CustomerDB {
@@ -6,51 +5,88 @@ public class CustomerDB {
     private String firstName;
     private String lastName;
     private String address;
+    private String phoneNumber;
+    private final int sSNumber;
     private Double balance;
-    public Faker faker = new Faker();
 
-    public CustomerDB(String firstName, String lastName, String address){
-        for (int i = 0; i < 50; i++) {
-            firstName = faker.name().firstName();
-            lastName = faker.name().lastName();
-        }//end faker Full name
-        this.id = RandomGenerator.generateId();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.balance = RandomGenerator.generateBalance();
+    public CustomerDB(String id, String firstName, String lastName, String address, String phoneNumber,
+                      int sSNumber, Double balance) {
+        this.id = RandomGenerator.generateRandomId();
+        this.firstName = RandomGenerator.generateRandomFirstName();
+        this.lastName = RandomGenerator.generateRandomLastName();
+        this.address = RandomGenerator.generateRandomAddress();
+        this.phoneNumber = RandomGenerator.generateRandomPhone();
+        this.sSNumber = sSNumber;
+        this.balance = RandomGenerator.generateRandomBalance();
+    }// end of constructor
 
-
-    }//end ctor
-
-    // getters & setters
-    public String getId(){
+    //getters & setters
+    public String getId() {
         return id;
     }
-    public String getFirstName(){
-         return firstName;
+
+    public String getFirstName() {
+        return firstName;
     }
-    public void setFirstName(String firstName){
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    public String getLastName(){
+
+    public String getLastName() {
         return lastName;
     }
-    public void setAddress (String address){
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
     }
-    public Double getBalance(){
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getsSNumber() {
+        return sSNumber;
+    }
+
+    public Double getBalance() {
         return balance;
     }
-    public void setBalance (Double balance){
+
+    public void setBalance(Double balance) {
         this.balance = balance;
-    }//end getters & setters
+    }//end of getters & setters
 
-
-}//end CustomerDB class
+    @Override
+    public String toString() {
+        return "Customer Data Base " +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", sSNumber=" + sSNumber +
+                ", balance=" + balance +
+                '}';
+    }//end of toString()
+}// end of class CustomerDB
 
 class RandomGenerator{
-    public static String generateId() {
+
+    static Faker faker = new Faker();
+    public static String generateRandomId(){
         String str = "abcdefghjklmnopqrstuvwxyz0123456789";
         String result = "";
         for (int i = 0; i < 8; i++) {
@@ -58,9 +94,25 @@ class RandomGenerator{
             result += str.charAt(random);
         }
         return result.toUpperCase();
-    }
-    public static double generateBalance(){
-        return (Math.random() * (1000 - 500) + 500);
+
     }
 
-}//end RandomGenerator class
+    public static double generateRandomBalance(){
+        return Math.random() * (1000 - 500) + 500;
+    }
+
+    public static String generateRandomFirstName(){
+        return faker.name().firstName();
+    }
+    public static String generateRandomLastName(){
+        return faker.name().lastName();
+    }
+    public static String generateRandomAddress(){
+        return faker.address().fullAddress();
+    }
+    public static String generateRandomPhone(){
+         return faker.phoneNumber().cellPhone();
+    }
+
+
+}//end of RandomGenerator class
